@@ -5,13 +5,13 @@ const jwt = require('jsonwebtoken')
 
 
 const login = async (req,res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
   /* Check errors ... */
   const { error, isValid } = loginValidator(req.body)
   if(!isValid) return res.status(400).send(error)
 
   // Check Admin Conflict
-  const admin = await Admin.findOne({ email })
+  const admin = await Admin.findOne({ username })
   if(!admin) return res.status(400).send({ message: 'Invalid credentials!'})
 
   // Password Validation
@@ -40,7 +40,7 @@ const signup = async (req,res) => {
   admin.password = await bcrypt.hash(admin.password,salt); // Hashing password ...
   await admin.save();
   const accessToken = admin.getToken();
-  res.header('Authorization',token).status(201).send({ accessToken });
+  return res.status(201).send({ accessToken });
 }
 
 // Get  Admins ...

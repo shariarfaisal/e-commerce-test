@@ -5,7 +5,7 @@
 }
 
 html{
-  font-size: 62.5%;
+  // font-size: 62.5%;
 }
 
 body{
@@ -13,22 +13,18 @@ body{
   font-family: 'Source Sans Pro', sans-serif;
 }
 
-
-.ReactModal__Content{
-
-  @media (max-width: 700px){
-    width: 70%;
-  }
-  @media (min-width: 700px){
-    width: 50%;
-  }
-
-  @media (min-width: 900px){
-    width: 40%;
+.pointer{
+  cursor: pointer;
+  &:hover{
+    opacity: .6;
   }
 }
 
-.slow-mo{
+.round-20{
+  border-radius: 20px;
+}
+
+.slow-down{
   animation: slow .5s ease;
 
   @keyframes slow{
@@ -41,24 +37,10 @@ body{
   }
 }
 
-.slow-right{
-  animation: slowright .3s ease;
-
-  @keyframes slowright{
-    0%{
-      margin-top: -50px;
-      margin-right: -50px;
-    }
-    100%{
-      margin-top: 0px;
-      margin-right: 0px;
-    }
-  }
-}
-
-.pointer{
-  cursor: pointer;
-  &:hover{
-    opacity: .6;
+.react-datepicker-wrapper{
+  width: 100%;
+  input{
+    width: 100%;
+    border-radius: 20px;
   }
 }

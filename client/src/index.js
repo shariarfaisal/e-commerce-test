@@ -4,12 +4,15 @@ import App from './App';
 import './sass/style.scss'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'https://faisal-e-backend.herokuapp.com/'
+// axios.defaults.baseURL = 'https://faisal-e-backend.herokuapp.com/'
 
-const token = localStorage.getItem('x-user-token')
-if(token){
-  axios.defaults.headers['Authorization'] = token
+axios.defaults.baseURL = 'http://localhost:4000/'
+
+const adminToken = localStorage.getItem('x-admin-token')
+if(adminToken){
+  axios.defaults.headers.common['Authorization'] = adminToken
 }
+
 
 ReactDOM.render(
   <App />,

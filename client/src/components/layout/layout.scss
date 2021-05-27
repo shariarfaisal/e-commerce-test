@@ -1,94 +1,85 @@
 
-.navbar{
-  .navbar-brand{
-    font-size: 16px;
-    font-weight: 600;
-  }
-  .nav{
-    &-item{
-      .nav-link{
-        font-size: 13px;
-        &:hover{
-          opacity: .5;
-        }
-      }
-    }
-  }
-}
-
-.round-20{
-  border-radius: 20px;
-}
-
-.link{
-  text-decoration: none;
-  cursor: pointer;
+.nav-link{
   &:hover{
     opacity: .6;
   }
 }
 
-.content-wrapper{
+.layout{
+  .sidebar{
+    width: 25%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .content-wrapper{
+    width: 75%;
+    margin-left: 25%;
+  }
 
 }
 
 
-.home-content{
+.switch_btn{
+  position: relative;
+  display: inline-block;
+  width: 54px;
+  height: 27px;
 
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
 
-  .images{
-    &-item{
-      padding: 0;
-      img{
-        width: 100%;
-      }
-      .body{
-        padding: 1rem 1.5rem;
-        .title{
-          font-size: 1.2rem;
-        }
-        .category{
-          font-size: 1rem;
-        }
-        .footer{
-          font-size: 1.4rem;
-        }
-      }
-    }
-  }
-}
-
-
-.cart-section{
-  .header{
-    .title{
-      font-size: 1.3rem;
-      font-weight: 600;
-    }
-  }
-  .cart-items{
-    min-height: 3rem;
-
-    &-item{
-      img{
-        width: 30%;
-      }
-      .body{
-        width: 70%;
-        .img-title{
-          font-size: 1rem;
-          .bx{display: none;}
-          &:hover{
-            .bx{
-              display: block;
-            }
-          }
-        }
-      }
+    &:checked + .slider {
+      background-color: #2196F3;
     }
 
+    &:focus + .slider {
+      box-shadow: 0 0 1px #2196F3;
+    }
 
-
-
+    &:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
   }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+
+    &:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+  }
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+
 }

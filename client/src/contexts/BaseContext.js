@@ -1,97 +1,97 @@
-import React,{ createContext, useState, useEffect } from 'react'
+import React,{ createContext,useState, useEffect } from 'react'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 
 
 export const BaseContext = createContext()
 
-const BaseContextProvider = ({ children }) => {
-  const header = 'x-user-token'
-  const [loading,setLoading] = useState(true)
-  const [login,setLogin] = useState(false)
-  const [signup,setSignup] = useState(false)
-  const [cart,setCart] = useState(false)
-  const [user,setUser] = useState(null)
-  const [token,setToken] = useState(localStorage.getItem(header))
 
+const BaseContextProvider = ({ children }) => {
+  const [admin,setAdmin] = useState(null)
+  const header = 'x-admin-token'
+  const history = useHistory()
+
+
+
+  // Get Admin Login ...
   const getLogin = async ({
     payloads,
-    setError,
+    setSuccess,
+    setErrors,
     setLoading
   }) => {
     try{
-      setLoading(true)
-      const { data } = await axios.post('/api/user/login',payloads)
-      if(data){
-        setError('')
+      const signin = await axios.post('/api/admin/signin',payloads)
+      if(signin.data){
         setLoading(false)
-        localStorage.setItem(header,'Bearer '+data.accessToken)
-        axios.defaults.headers['Authorization'] = 'Bearer '+data.accessToken
-        setToken('Bearer '+data.accessToken)
-        setLogin(false)
+        setErrors('')
+        setSuccess('Login successful.')
+        localStorage.setItem(header,'Bearer '+signin.data.accessToken)
+        setTimeout(() => {
+          window.location = '/'
+        },1000)
       }
     }catch(err){
       setLoading(false)
       if(err.response && err.response.status === 400){
-        setError(err.response.data)
-      }else{
-        setError({message: "Something wrong!"})
+        setErrors(err.response.data)
       }
     }
   }
 
-  const getSignup = async ({
-    payloads,
-    setError,
-    setLoading,
-    setSuccess
-  }) => {
+
+  //Get Signup ...
+  const getSignup = async ({ payloads, setLoading, setError, setSuccess, clearForm }) => {
+    setLoading(true);
     try{
-      setLoading(true)
-      const { data } = await axios.post('/api/user/signup',payloads)
-      if(data){
+      const signup = await axios.post('/api/admin/signup',payloads)
+      if(signup.data){
+        setLoading(false);
         setError('')
-        setLoading(false)
-        setSuccess('Account created successfully.')
-        return true
+        setSuccess('Signup Successfull!')
+        clearForm();
       }
     }catch(err){
-      setLoading(false)
+      setLoading(false);
       if(err.response && err.response.status === 400){
         setError(err.response.data)
-      }else{
-        setError({message: "Something wrong!"})
       }
-      return false
     }
   }
 
-
-  const getUser = async () => {
+  // Get Admin profile ...
+  const getAdmin = async () => {
     try{
-      const { data } = await axios.get('/api/user/profile')
-      if(data){
-        setLoading(false)
-        setUser(data)
-        setLogin(false)
+      const admin = await axios.get('/api/admin/profile')
+      if(admin.data){
+        setAdmin(admin.data)
       }
     }catch(err){
-      setLoading(false)
-      setUser(null)
-      setLogin(true)
+      if(err.response.status === 401){
+        localStorage.removeItem(header)
+        history.push('/login')
+      }
     }
   }
+
+  const getLogout = (e) => {
+    localStorage.removeItem(header)
+    window.location = '/login'
+  }
+
 
   useEffect(() => {
-    if(token){
-      getUser()
+    if(localStorage.getItem(header)){
+      getAdmin()
     }else{
-      setLoading(false)
+      // history.push('/')
     }
-  },[token])
+  },[])
+
 
   return(
     <BaseContext.Provider value={{
-      user, header, login, setLogin, getSignup, cart, setCart, getLogin, loading, signup, setSignup
+      getLogin, admin, header, getLogout, getSignup
     }}>
       { children }
     </BaseContext.Provider>

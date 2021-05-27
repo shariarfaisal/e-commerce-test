@@ -1,0 +1,31 @@
+
+
+.admin-projects{
+  &-item{
+    border: none;
+    border-radius: 0;
+    box-shadow: 0 0px 4px #b1b1b1;
+    padding: 1rem;
+    margin: .5rem 1rem;
+    display: flex;
+    font-size: .9rem;
+    .image{width: 5rem;height: 5rem;}
+    .name{
+      font-size: 1.4rem;
+    }
+
+  }
+}
+
+
+.create-product-form{
+  font-size: 1.2rem;
+  input[type="file"]{
+    display: block;
+    font-size: 1rem;
+    &:focus{
+      outline: 0;
+      box-shadow: none;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+
+
+.code-items, .order-items{
+  .list-group{
+    &-item{
+      box-shadow: 0 0px 4px #b1b1b1;
+      border-radius: 5px!important;
+      font-size: 1.2rem;
+      border: none;
+      padding: 1rem 2rem;
+      margin: .5rem 0;
+      display: flex;
+    }
+  }
+}

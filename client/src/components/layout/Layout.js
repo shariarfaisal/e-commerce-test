@@ -1,20 +1,18 @@
 import React from 'react'
-import Navbar from './Navbar'
 import './layout.scss'
-import ProductContextProvider from '../../contexts/ProductContext'
+import Sidebar from './Sidebar'
+
 
 const Layout = ({ children }) => {
   return(
-    <ProductContextProvider>
-      <div className="layout">
-        <Navbar />
+    <div className="layout">
+      <div className="row mx-0 align-items-stretch" style={{minHeight: '100vh'}}>
+        <Sidebar />
         <div className="content-wrapper">
-          <div className="container">
-            { children }
-          </div>
+          { children }
         </div>
       </div>
-    </ProductContextProvider>
+    </div>
   )
 }
 export default Layout

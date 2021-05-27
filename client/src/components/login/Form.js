@@ -1,71 +1,70 @@
-import React,{ useState, useContext }  from 'react'
+import React,{ useState, useContext } from 'react'
 import { BaseContext } from '../../contexts/BaseContext'
+import FormGroup from './FormGroup'
+import { Link } from 'react-router-dom'
 
-const LoginForm = ({ setIsOpen, setSignup }) => {
-  const [email,setEmail] = useState('')
-  const [password,setPassword] = useState('')
-  const [loading,setLoading] = useState(false)
-  const [error,setError] = useState('')
+
+const Form = (props) => {
   const { getLogin } = useContext(BaseContext)
+  const [username,setUsername] = useState('')
+  const [password,setPassword] = useState('')
+  const [errors,setErrors] = useState('')
+  const [success,setSuccess] = useState('')
+  const [loading,setLoading] = useState(false)
 
-  const submitHandler = (e) => {
+  const submitHandler = e => {
     e.preventDefault()
+    setLoading(true)
     getLogin({
-      payloads:{ email, password},
-      setLoading,
-      setError
+      payloads:{ username, password },
+      setSuccess,
+      setErrors,
+      setLoading
     })
   }
 
   return(
-    <form onSubmit={submitHandler} style={{fontSize: '1.2rem'}}>
-      <p className="text-center text-danger">{error.message && error.message}</p>
-      <div className="form-group">
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          className="form-control"
-          placeholder="Email"
-          required={true}
-        />
-        <small style={{fontSize: '1rem'}} className="text-danger">{error.email && error.email}</small>
-      </div>
-      <div className="form-group">
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          className="form-control"
-          placeholder="Password"
-          required={true}
-        />
-        <small style={{fontSize: '1rem'}} className="text-danger">{error.password && error.password}</small>
-      </div>
-      <div className="d-flex align-items-center mt-3">
+    <form onSubmit={submitHandler} className="">
+
+      {errors.message && <p className="text-danger text-center" style={{fontSize: '13px'}}>
+        {errors.message}
+      </p>}
+      {success && <p className="text-success text-center" style={{fontSize: '13px'}}>
+        <i className="bx bx-check-double"></i>
+        {success}
+      </p>}
+
+      <FormGroup
+        type="text"
+        id="username"
+        label="Username"
+        value={username}
+        setvalue={setUsername}
+        error={errors.username}
+      />
+      <FormGroup
+        type="password"
+        id="password"
+        label="Password"
+        value={password}
+        setvalue={setPassword}
+        error={errors.password}
+      />
+      <div className="mt-3">
         <div style={{fontSize: '1rem'}}>
-          <span>Not yet signed up?</span>
-          <span onClick={e => {setIsOpen(false);setSignup(true)}} className="text-info link">Signup</span>
+          <span>Have no account yet? <Link to="/signup">Signup</Link></span>
         </div>
         <button
-          onClick={e => setIsOpen(false)}
-          className="btn btn-danger btn-sm mr-2 round-20 px-3 ml-auto"
-          type="button">Cancel</button>
-        <button
-          disabled={loading}
+          disabled={loading || (!username || !password)}
           onClick={submitHandler}
           type="submit"
-          className="btn btn-sm round-20 px-3 btn-info d-flex align-items-center">
+          className="btn btn-sm round-20 px-3 btn-info d-flex align-items-center mx-auto mt-4">
           <i className="bx bx-log-in mr-2"></i>
           <span>Login</span>
-          {loading && <i className="bx bx-loader bx-spin ml-2"></i>}
+          {loading && <i className="bx bx-loader bx-spin"></i>}
         </button>
       </div>
     </form>
   )
 }
-export default LoginForm
+export default Form
