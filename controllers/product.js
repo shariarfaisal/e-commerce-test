@@ -1,6 +1,7 @@
 const Product = require('../models/Product')
 const { createValidator } = require('../validators/product')
 
+
 /* Get Products */
 const getProducts = async (req,res) => {
   console.log(req.query);
@@ -15,7 +16,7 @@ const getProducts = async (req,res) => {
 
 /* Get Product By ID */
 const getProduct = async (req,res) => {
-  const product = await Product.findById(req.params.id)
+  const product = await Product.findById(req.params.id).cache() // useing redis cache server ...
   if(!product) return res.status(404).send({ msg: 'Not found!'})
   return res.status(200).send(product)
 }
