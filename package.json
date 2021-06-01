@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "jest":{
+    "setupTestFrameworkScriptFile": "./tests/setup.js"
+  },
   "scripts": {
     "server": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -32,6 +36,10 @@
     "validator": "^12.2.0"
   },
   "devDependencies": {
-    "morgan": "^1.9.1"
+    "babel-jest": "^27.0.1",
+    "extract-zip": "^2.0.1",
+    "jest": "^27.0.1",
+    "morgan": "^1.9.1",
+    "puppeteer": "^9.1.1"
   }
 }
